@@ -8,7 +8,7 @@ const Stack = createStackNavigator();
 function MyStack() {
   return (
     <Stack.Navigator
-      initialRouteName="Detail"
+      initialRouteName="Car"
       screenOptions={{
         headerStyle: {
           backgroundColor: "#5B7553",
