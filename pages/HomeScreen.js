@@ -66,7 +66,7 @@ const HomeScreen = ({ navigation }) => {
   };
 
   const animatedStyle = {
-    transform: [{ translateX: shakeValue }],
+    transform: [{ translateX: startShake }],
   };
 
   const renderListItem = ({ item }) => (
@@ -77,9 +77,9 @@ const HomeScreen = ({ navigation }) => {
       key={item.id}
       onPress={() => navigation.navigate("Car", { car: item.name })}
     >
-      <Animated.View style={{ transform: [{ translateX: shakeValue }] }}>
+      <Animated.View style={{ animatedStyle }}>
         <View key={item.id}>
-          <Text style={styles.text}>{item.name}</Text>
+          <Text style={styles.text}>{item.brand + " " + item.model}</Text>
           <View style={styles.imageContainer}>
             <Animated.Image
               source={require("../assets/favicon.png")}
@@ -98,8 +98,8 @@ const HomeScreen = ({ navigation }) => {
     // Definim o funcție async pentru a încărca datele dintr-un API
     async function getData() {
       const newData = await fetchData();
-      setData(newData.data);
-      console.log(newData.data[0]);
+      setData(newData);
+      console.log(newData);
     }
     getData();
 

@@ -9,7 +9,7 @@ const { createProxyMiddleware } = require("http-proxy-middleware");
 const app = express();
 
 app.use(
-  "/api",
+  "/cars",
   createProxyMiddleware({
     target: "https://carapi.app/api/makes?sort=id&direction=asc",
     changeOrigin: true,
@@ -22,6 +22,6 @@ app.use(
   })
 );
 
-app.listen(3000, () => {
-  console.log("Serverul asculta pe portul 3000");
+app.listen(8000, () => {
+  console.log("Serverul asculta pe portul 8000");
 });

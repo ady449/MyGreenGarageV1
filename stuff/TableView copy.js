@@ -1,7 +1,17 @@
 import React, { useState, useEffect } from "react";
 import { FlatList, StyleSheet, Text, View } from "react-native";
 import { fetchData } from "../api/node";
-import { DataTable } from "react-native-paper";
+// import { makeStyles } from "@material-ui/core/styles";
+
+import Table from "@mui/material/Table";
+import TableBody from "@mui/material/TableBody";
+import TableCell from "@mui/material/TableCell";
+import TableContainer from "@mui/material/TableContainer";
+import TableHead from "@mui/material/TableHead";
+import TableRow from "@mui/material/TableRow";
+import Paper from "@mui/material/Paper";
+
+// import ForegroundNotification from "./Notification";
 
 const TableView = () => {
   const data = {
@@ -10,7 +20,7 @@ const TableView = () => {
     VIN: "1234AUDI",
     RCA: "2023-04-26",
     BatteryLevel: 44,
-    BatteryHealth: 51,
+    BatteryHealth: 50,
   };
 
   const dataName = ["title", "VIN", "RCA", "Battery Level", "Battery Health"];
@@ -30,15 +40,20 @@ const TableView = () => {
     return Object.keys(data).map((key) => {
       if (key === "RCA" && today < expirationDate) {
         return (
-          <DataTable.Row
-            style={{ border: 0, backgroundColor: "red" }}
+          <TableRow
             key={key}
+            sx={{
+              "&:last-child td, &:last-child th": {
+                border: 0,
+                backgroundColor: "red",
+              },
+            }}
           >
-            <DataTable.Cell>{key}</DataTable.Cell>
-            <DataTable.Cell style={{ justifyContent: "center" }}>
-              {data[key]}
-            </DataTable.Cell>
-          </DataTable.Row>
+            <TableCell component="th" scope="row">
+              {key}
+            </TableCell>
+            <TableCell align="right">{data[key]}</TableCell>
+          </TableRow>
         );
       } else if (
         (key === "BatteryLevel" || key === "BatteryHealth") &&
@@ -54,32 +69,34 @@ const TableView = () => {
           (key === "BatteryLevel" || key === "BatteryHealth") && data[key] <= 50
         );
         return (
-          <DataTable.Row
-            style={{
+          <TableRow
+            key={key}
+            sx={{
               border: 0,
               backgroundColor: "red",
             }}
-            key={key}
           >
-            <DataTable.Cell style={{ justifyContent: "flex-start" }}>
+            <TableCell component="th" scope="row">
               {key}
-            </DataTable.Cell>
-            <DataTable.Cell style={{ justifyContent: "center" }}>
-              {data[key]} %
-            </DataTable.Cell>
-          </DataTable.Row>
+            </TableCell>
+            <TableCell align="right">{data[key]} %</TableCell>
+          </TableRow>
         );
       } else {
         return (
-          <DataTable.Row
-            style={{ border: 0, alignContent: "center" }}
+          <TableRow
             key={key}
+            sx={{
+              "&:last-child td, &:last-child th": {
+                border: 0,
+              },
+            }}
           >
-            <DataTable.Cell>{key}</DataTable.Cell>
-            <DataTable.Cell style={{ justifyContent: "center" }}>
-              {data[key]}{" "}
-            </DataTable.Cell>
-          </DataTable.Row>
+            <TableCell component="th" scope="row">
+              {key}
+            </TableCell>
+            <TableCell align="right">{data[key]}</TableCell>
+          </TableRow>
         );
       }
     });
@@ -87,16 +104,21 @@ const TableView = () => {
 
   return (
     <View>
-      <DataTable style={{ width: 200 }}>
-        <RenderItem />
-        <DataTable.Pagination page={1} numberOfItemsPerPage={6} />
-      </DataTable>
+      <TableContainer component={Paper}>
+        <Table aria-label="simple table">
+          <TableBody>
+            <RenderItem />
+          </TableBody>
+        </Table>
+      </TableContainer>
     </View>
   );
 };
 
 const styles = StyleSheet.create({
   row: {
+    flex: 1,
+    flexDirection: "row",
     alignContent: "center",
     paddingVertical: 10,
     paddingHorizontal: 0,
