@@ -74,19 +74,7 @@ function CarScreen({ navigation, route }) {
         <Image style={styles.carimg} source={require("../img/tesla2.png")} />
       </TouchableOpacity>
 
-      <Divider
-        bold={true}
-        leftInset={true}
-        style={{
-          width: "80%",
-          shadowColor: "#000000",
-          shadowOffset: { width: 0, height: 18 },
-          shadowOpacity: 0.1,
-          shadowRadius: 11,
-          elevation: 4,
-        }}
-      />
-      {/* <Icon name="key-outline" /> */}
+      <Divider bold={true} leftInset={true} style={styles.devider} />
 
       <View style={styles.icons}>
         <TouchableOpacity
@@ -145,6 +133,14 @@ function CarScreen({ navigation, route }) {
 }
 
 const styles = StyleSheet.create({
+  devider: {
+    width: "80%",
+    shadowColor: "#000000",
+    shadowOffset: { width: 0, height: 18 },
+    shadowColor: "green", // Set the shadow color here
+
+    elevation: 4,
+  },
   text: {
     fontSize: 18,
     marginRight: 10,
@@ -154,7 +150,6 @@ const styles = StyleSheet.create({
     height: 200,
     marginTop: "40%",
     resizeMode: "contain",
-    // justifyContent: "center",
   },
   icons: {
     flex: 1,
@@ -163,7 +158,7 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
   },
   header: {
-    marginTop: 20,
+    // marginTop: 20,
     alignSelf: "center",
     backgroundColor: theme.colors.header,
     color: theme.colors.text,

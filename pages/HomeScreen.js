@@ -123,15 +123,7 @@ const HomeScreen = ({ navigation }) => {
     outputRange: ["0deg", "360deg"],
   });
   return (
-    <View
-      style={{
-        background: {
-          flex: 1,
-          width: "100%",
-          backgroundColor: theme.colors.surface,
-        },
-      }}
-    >
+    <View>
       <Header>
         <Text style={[styles.text, { marginLeft: 10 }]}>Home</Text>
       </Header>

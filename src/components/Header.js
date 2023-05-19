@@ -4,7 +4,15 @@ import { StyleSheet, View } from "react-native";
 import { theme } from "../core/theme";
 
 export default function Header({ children, style }) {
-  return <View style={[styles.header, style]}>{children}</View>;
+  const Safezone = Platform.select({
+    ios: 50,
+    android: 35,
+  });
+  return (
+    <View style={[styles.header, { paddingTop: Safezone }, style]}>
+      {children}
+    </View>
+  );
 }
 
 const styles = StyleSheet.create({
@@ -12,6 +20,7 @@ const styles = StyleSheet.create({
     fontSize: 21,
     fontWeight: "bold",
     paddingVertical: 15,
+    paddingTop: 50,
     flexDirection: "row",
     shadowColor: "green", // Set the shadow color here
     shadowOpacity: 0.5, // Set the opacity of the shadow

@@ -20,20 +20,18 @@ const Safezone = ({ children, style }) => {
 
 export default function Background({ children, style }) {
   return (
-    <Safezone style={[styles.container, style]}>
-      <ImageBackground
-        source={require("../../assets/background_dot.png")}
-        resizeMode="repeat"
-        style={styles.background}
+    <ImageBackground
+      source={require("../../assets/background_dot.png")}
+      resizeMode="repeat"
+      style={styles.background}
+    >
+      <KeyboardAvoidingView
+        style={[styles.container, style]}
+        behavior="padding"
       >
-        <KeyboardAvoidingView
-          style={[styles.container, style]}
-          behavior="padding"
-        >
-          {children}
-        </KeyboardAvoidingView>
-      </ImageBackground>
-    </Safezone>
+        {children}
+      </KeyboardAvoidingView>
+    </ImageBackground>
   );
 }
 
@@ -45,7 +43,6 @@ const styles = StyleSheet.create({
   },
   container: {
     flex: 1,
-
     width: "100%",
     alignSelf: "center",
     alignItems: "center",
