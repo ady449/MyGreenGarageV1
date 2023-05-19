@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { TouchableOpacity, StyleSheet, View } from "react-native";
 import { Text } from "react-native-paper";
 import Background from "../components/Background";
@@ -16,8 +16,19 @@ import { loginUser } from "../../api/node";
 export default function LoginScreen({ navigation }) {
   const [username, setUsername] = useState({ value: "", error: "" });
   const [password, setPassword] = useState({ value: "", error: "" });
+  const [auth, setAuth] = useState(false);
 
-  const onLoginPressed = () => {
+  useEffect(() => {
+    // This effect will run whenever the value of `auth` changes
+    if (auth === true) {
+      //   console.log(typeof auth); // You will see the updated value of `auth` here
+      // Perform any action you want after the state update is complete
+      // For example, navigate to a different screen
+      navigation.navigate("Home");
+    }
+  }, [auth, navigation]);
+
+  const onLoginPressed = async () => {
     const usernameError = usernameValidator(username.value);
     const passwordError = passwordValidator(password.value);
     if (usernameError || passwordError) {
@@ -25,17 +36,13 @@ export default function LoginScreen({ navigation }) {
       setPassword({ ...password, error: passwordError });
       return;
     }
-    if (loginUser(username.value, password.value) === 200) {
-      navigation.navigate("Home");
-    }
-    // navigation.reset({
-    //   index: 0,
-    //   routes: [{ name: "Dashboard" }],
-    // });
+
+    const authenticated = await loginUser(username.value, password.value);
+    setAuth(authenticated);
   };
 
   return (
-    <Background>
+    <Background style={{ padding: 20, maxWidth: 340 }}>
       <BackButton goBack={navigation.goBack} />
       <Logo />
       <Header>Login</Header>

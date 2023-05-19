@@ -3,20 +3,37 @@ import {
   ImageBackground,
   StyleSheet,
   KeyboardAvoidingView,
+  Platform,
+  SafeAreaView,
+  View,
 } from "react-native";
 import { theme } from "../core/theme";
 
-export default function Background({ children }) {
+const Safezone = ({ children, style }) => {
+  const Safezone = Platform.select({
+    ios: SafeAreaView,
+    android: View,
+  });
+
+  return <Safezone style={style}>{children}</Safezone>;
+};
+
+export default function Background({ children, style }) {
   return (
-    <ImageBackground
-      source={require("../../assets/background_dot.png")}
-      resizeMode="repeat"
-      style={styles.background}
-    >
-      <KeyboardAvoidingView style={styles.container} behavior="padding">
-        {children}
-      </KeyboardAvoidingView>
-    </ImageBackground>
+    <Safezone style={[styles.container, style]}>
+      <ImageBackground
+        source={require("../../assets/background_dot.png")}
+        resizeMode="repeat"
+        style={styles.background}
+      >
+        <KeyboardAvoidingView
+          style={[styles.container, style]}
+          behavior="padding"
+        >
+          {children}
+        </KeyboardAvoidingView>
+      </ImageBackground>
+    </Safezone>
   );
 }
 
@@ -28,9 +45,8 @@ const styles = StyleSheet.create({
   },
   container: {
     flex: 1,
-    padding: 20,
+
     width: "100%",
-    maxWidth: 340,
     alignSelf: "center",
     alignItems: "center",
     justifyContent: "center",

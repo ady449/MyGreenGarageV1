@@ -86,10 +86,9 @@ const TableView = () => {
   };
 
   return (
-    <View>
-      <DataTable style={{ width: 200 }}>
+    <View style={{ backgroundColor: "white", borderRadius: 15 }}>
+      <DataTable style={{ width: 250 }}>
         <RenderItem />
-        <DataTable.Pagination page={1} numberOfItemsPerPage={6} />
       </DataTable>
     </View>
   );
@@ -107,7 +106,6 @@ const styles = StyleSheet.create({
     flex: 1,
     textAlign: "center",
     padding: 20,
-    left: 0,
     borderBottomColor: "#ccc",
   },
   column2: {

@@ -10,6 +10,9 @@ import {
 } from "react-native";
 import ShakeButton from "../stuff/ShakeBttn";
 import { fetchData } from "../api/node";
+import Header from "../src/components/Header";
+import { theme } from "../src/core/theme";
+import Background from "../src/components/Header";
 
 const HomeScreen = ({ navigation }) => {
   const [items, setItems] = useState([]);
@@ -99,7 +102,6 @@ const HomeScreen = ({ navigation }) => {
     async function getData() {
       const newData = await fetchData();
       setData(newData);
-      console.log(newData);
     }
     getData();
 
@@ -121,20 +123,38 @@ const HomeScreen = ({ navigation }) => {
     outputRange: ["0deg", "360deg"],
   });
   return (
-    <View style={styles.container}>
-      <FlatList
-        data={data}
-        renderItem={renderListItem}
-        keyExtractor={(item) => item.id}
-      />
+    <View
+      style={{
+        background: {
+          flex: 1,
+          width: "100%",
+          backgroundColor: theme.colors.surface,
+        },
+      }}
+    >
+      <Header>
+        <Text style={[styles.text, { marginLeft: 10 }]}>Home</Text>
+      </Header>
+      <View style={styles.container}>
+        <FlatList
+          data={data}
+          renderItem={renderListItem}
+          keyExtractor={(item) => item.id}
+        />
+      </View>
     </View>
   );
 };
 
 const styles = StyleSheet.create({
+  header: {
+    marginTop: 20,
+    alignSelf: "center",
+    backgroundColor: theme.colors.header,
+    color: theme.colors.text,
+    width: "100%",
+  },
   container: {
-    flex: 1,
-    backgroundColor: "#F5FCFF",
     padding: 20,
   },
   item: {
@@ -142,9 +162,13 @@ const styles = StyleSheet.create({
     padding: 20,
     marginBottom: 10,
     borderRadius: 10,
-    elevation: 3,
+    // elevation: 3,
     flexDirection: "row",
     alignItems: "center",
+    shadowColor: "green", // Set the shadow color here
+    shadowOpacity: 0.5, // Set the opacity of the shadow
+    shadowRadius: 5, // Set the radius of the shadow
+    elevation: 3, // On Android, use elevation instead of shadow properties
   },
   text: {
     fontSize: 18,

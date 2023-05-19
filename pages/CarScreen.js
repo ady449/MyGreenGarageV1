@@ -12,10 +12,18 @@ import { Divider, Text } from "react-native-paper";
 import { Ionicons } from "@expo/vector-icons";
 import { updateTemp } from "../api/node";
 import { Switch, Snackbar } from "react-native-paper";
+import Header from "../src/components/Header";
+import { theme } from "../src/core/theme";
+import BackButton from "../src/components/BackButton";
+import Background from "../src/components/Background";
 
 function CarScreen({ navigation, route }) {
   //   const { car } = route.params;
-  const car = { name: "", id: "6463fbc8fb561988e5988c6b", temperature: 15 };
+  const car = {
+    name: "tesla",
+    id: "6463fbc8fb561988e5988c6b",
+    temperature: 15,
+  };
 
   const [temp, setTemp] = useState(car.temperature);
   const [tempPrev, setTempprev] = useState(car.temperature);
@@ -57,14 +65,11 @@ function CarScreen({ navigation, route }) {
   const SCREEN_WIDTH = Dimensions.get("window").width;
 
   return (
-    <View
-      style={{
-        flex: 1,
-        flexDirection: "column",
-        justifyContent: "center",
-        alignItems: "center",
-      }}
-    >
+    <Background style={{ backgroundColor: "white" }}>
+      <Header>
+        <BackButton goBack={navigation.goBack} />
+        <Text style={[styles.text, { marginLeft: 20 }]}>{car.name}</Text>
+      </Header>
       <TouchableOpacity onPress={() => navigation.navigate("Detail")}>
         <Image style={styles.carimg} source={require("../img/tesla2.png")} />
       </TouchableOpacity>
@@ -135,11 +140,15 @@ function CarScreen({ navigation, route }) {
       >
         Car is locked!
       </Snackbar>
-    </View>
+    </Background>
   );
 }
 
 const styles = StyleSheet.create({
+  text: {
+    fontSize: 18,
+    marginRight: 10,
+  },
   carimg: {
     flex: 0,
     height: 200,
@@ -152,6 +161,13 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     padding: 20,
     justifyContent: "space-between",
+  },
+  header: {
+    marginTop: 20,
+    alignSelf: "center",
+    backgroundColor: theme.colors.header,
+    color: theme.colors.text,
+    width: "100%",
   },
 });
 export default CarScreen;

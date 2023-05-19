@@ -9,6 +9,10 @@ import {
   Button,
 } from "react-native";
 import { Divider } from "@react-native-material/core";
+import Header from "../src/components/Header";
+import { theme } from "../src/core/theme";
+import BackButton from "../src/components/BackButton";
+import Background from "../src/components/Background";
 
 function DetailScreen({ navigation, route }) {
   //   const { car } = route.params;
@@ -18,48 +22,40 @@ function DetailScreen({ navigation, route }) {
   const circleRadius = 30;
 
   return (
-    <>
-      <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
+    <Background>
+      <Header>
+        <BackButton goBack={navigation.goBack} />
+      </Header>
+      <View style={styles.container}>
         <Text style={styles.title}>Status</Text>
-        <Divider style={{ marginTop: 60 }} variant="middle" />
+        <Divider style={{ marginTop: 30 }} variant="middle" />
         <TableView />
       </View>
-    </>
+    </Background>
   );
 }
 
 const styles = StyleSheet.create({
+  backButton: {},
+
+  header: {
+    marginTop: 20,
+    alignSelf: "center",
+    backgroundColor: theme.colors.header,
+    color: theme.colors.text,
+    width: "100%",
+  },
   container: {
     flex: 1,
     alignItems: "center",
     justifyContent: "center",
-    backgroundColor: "#121212",
   },
-  img: {
-    height: "50%",
-    width: "120%",
-    resizeMode: "contain",
-  },
+
   title: {
     fontSize: 30,
     marginTop: 20,
   },
-  detail: {
-    color: "#FFF",
 
-    fontSize: 18,
-    textAlign: "center",
-    paddingHorizontal: 20,
-    lineHeight: 30,
-    marginTop: 30,
-  },
-  btn: {
-    marginTop: 80,
-    backgroundColor: "#E2443B",
-    paddingHorizontal: 140,
-    paddingVertical: 10,
-    borderRadius: 30,
-  },
   text: {
     fontSize: 30,
     color: "#FFF",

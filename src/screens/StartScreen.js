@@ -7,7 +7,7 @@ import Paragraph from "../components/Paragraph";
 
 export default function StartScreen({ navigation }) {
   return (
-    <Background>
+    <Background style={{ padding: 20, maxWidth: 340 }}>
       <Logo />
       <Header>Welcome!</Header>
       <Paragraph>The easiest way to start manage you garage</Paragraph>

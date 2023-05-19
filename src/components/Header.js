@@ -1,17 +1,28 @@
-import React from 'react'
-import { StyleSheet } from 'react-native'
-import { Text } from 'react-native-paper'
-import { theme } from '../core/theme'
+import React from "react";
+import { StyleSheet, View } from "react-native";
+// import { View } from "react-native-paper";
+import { theme } from "../core/theme";
 
-export default function Header(props) {
-  return <Text style={styles.header} {...props} />
+export default function Header({ children, style }) {
+  return <View style={[styles.header, style]}>{children}</View>;
 }
 
 const styles = StyleSheet.create({
   header: {
     fontSize: 21,
-    color: theme.colors.primary,
-    fontWeight: 'bold',
-    paddingVertical: 12,
+    fontWeight: "bold",
+    paddingVertical: 15,
+    flexDirection: "row",
+    shadowColor: "green", // Set the shadow color here
+    shadowOpacity: 0.5, // Set the opacity of the shadow
+    shadowRadius: 5, // Set the radius of the shadow
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    elevation: 10, // On Android, use elevation instead of shadow properties
+    backgroundColor: theme.colors.header,
+    color: theme.colors.text,
+    width: "100%",
   },
-})
+});

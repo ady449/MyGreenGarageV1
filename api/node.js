@@ -26,14 +26,15 @@ async function updateTemp(id, temp) {
 
 async function loginUser(un, ps) {
   const login = { username: un, password: ps };
-  var result = false;
-  fetch(`http://${localhost}:3000/login`, {
+  let result;
+  var result2 = await fetch(`http://${localhost}:3000/login`, {
     method: "POST",
     body: JSON.stringify(login),
     headers: { "Content-Type": "application/json" },
-  })
-    .then((res) => res.json())
-    .then((json) => (result = json));
-  return result;
+  });
+
+  const response = await result2.json();
+  //   console.log(response);
+  return response;
 }
 export { fetchData, updateTemp, loginUser };
