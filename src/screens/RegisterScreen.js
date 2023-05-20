@@ -1,50 +1,78 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { View, StyleSheet, TouchableOpacity } from "react-native";
 import { Text } from "react-native-paper";
 import Background from "../components/Background";
 import Logo from "../components/Logo";
 import Header from "../components/Header";
 import Button from "../components/Button";
+import Title from "../components/Title";
 import TextInput from "../components/TextInput";
 import BackButton from "../components/BackButton";
 import { theme } from "../core/theme";
 import { emailValidator } from "../helpers/emailValidator";
 import { passwordValidator } from "../helpers/passwordValidator";
 import { nameValidator } from "../helpers/nameValidator";
+import { registerUser } from "../../api/node";
+import { getStatusBarHeight } from "react-native-status-bar-height";
 
 export default function RegisterScreen({ navigation }) {
-  const [name, setName] = useState({ value: "", error: "" });
+  const [username, setUsername] = useState({ value: "", error: "" });
   const [email, setEmail] = useState({ value: "", error: "" });
   const [password, setPassword] = useState({ value: "", error: "" });
+  const [register, setRegister] = useState(false);
+  const [errorText, setError] = useState("");
 
-  const onSignUpPressed = () => {
-    const nameError = nameValidator(name.value);
+  useEffect(() => {
+    // This effect will run whenever the value of `register` changes
+
+    if (register === true) {
+      //   console.log(typeof register); // You will see the updated value of `register` here
+      // Perform any action you want after the state update is complete
+      // For exampregisterUserle, navigate to a different screen
+      navigation.navigate("LoginScreen");
+    }
+  }, [register, navigation]);
+  const onSignUpPressed = async () => {
+    const usernameError = nameValidator(username.value);
     const emailError = emailValidator(email.value);
     const passwordError = passwordValidator(password.value);
-    if (emailError || passwordError || nameError) {
-      setName({ ...name, error: nameError });
+    if (emailError || passwordError || usernameError) {
+      setUsername({ ...username, error: usernameError });
       setEmail({ ...email, error: emailError });
       setPassword({ ...password, error: passwordError });
       return;
     }
-    navigation.reset({
-      index: 0,
-      routes: [{ name: "Dashboard" }],
-    });
+
+    const registerCheck = await registerUser(
+      username.value,
+      password.value,
+      email.value
+    );
+    if (registerCheck === false) {
+      setError(true);
+    }
+    setRegister(registerCheck);
   };
 
   return (
     <Background style={{ padding: 20, maxWidth: 340 }}>
-      <BackButton goBack={navigation.goBack} />
+      <BackButton
+        goBack={navigation.goBack}
+        style={{ position: "absolute", top: 10 + getStatusBarHeight() }}
+      />
       <Logo />
-      <Header>Create Account</Header>
+
+      <Title>Create Account</Title>
+
+      {errorText ? <Text style={styles.error}>User already exist!</Text> : null}
+
       <TextInput
-        label="Name"
+        label="Username"
         returnKeyType="next"
-        value={name.value}
-        onChangeText={(text) => setName({ value: text, error: "" })}
-        error={!!name.error}
-        errorText={name.error}
+        value={username.value}
+        onChangeText={(text) => setUsername({ value: text, error: "" })}
+        error={!!username.error}
+        errorText={username.error}
       />
       <TextInput
         label="Email"
@@ -92,5 +120,10 @@ const styles = StyleSheet.create({
   link: {
     fontWeight: "bold",
     color: theme.colors.primary,
+  },
+  error: {
+    fontSize: 13,
+    color: theme.colors.error,
+    paddingTop: 8,
   },
 });

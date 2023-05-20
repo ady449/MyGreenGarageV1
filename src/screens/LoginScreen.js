@@ -5,11 +5,13 @@ import Background from "../components/Background";
 import Logo from "../components/Logo";
 import Header from "../components/Header";
 import Button from "../components/Button";
+import Title from "../components/Title";
 import TextInput from "../components/TextInput";
 import BackButton from "../components/BackButton";
 import { theme } from "../core/theme";
 import { usernameValidator } from "../helpers/usernameValidator";
 import { passwordValidator } from "../helpers/passwordValidator";
+import { getStatusBarHeight } from "react-native-status-bar-height";
 
 import { loginUser } from "../../api/node";
 
@@ -43,9 +45,13 @@ export default function LoginScreen({ navigation }) {
 
   return (
     <Background style={{ padding: 20, maxWidth: 340 }}>
-      <BackButton goBack={navigation.goBack} />
+      <BackButton
+        goBack={navigation.goBack}
+        style={{ position: "absolute", top: 10 + getStatusBarHeight() }}
+      />
+
       <Logo />
-      <Header>Login</Header>
+      <Title>Login</Title>
       <TextInput
         label="username"
         returnKeyType="next"

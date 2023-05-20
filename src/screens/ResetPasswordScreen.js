@@ -1,34 +1,38 @@
-import React, { useState } from 'react'
-import Background from '../components/Background'
-import BackButton from '../components/BackButton'
-import Logo from '../components/Logo'
-import Header from '../components/Header'
-import TextInput from '../components/TextInput'
-import Button from '../components/Button'
-import { emailValidator } from '../helpers/emailValidator'
+import React, { useState } from "react";
+import Background from "../components/Background";
+import BackButton from "../components/BackButton";
+import Logo from "../components/Logo";
+import Title from "../components/Title";
+import TextInput from "../components/TextInput";
+import Button from "../components/Button";
+import { emailValidator } from "../helpers/emailValidator";
+import { getStatusBarHeight } from "react-native-status-bar-height";
 
 export default function ResetPasswordScreen({ navigation }) {
-  const [email, setEmail] = useState({ value: '', error: '' })
+  const [email, setEmail] = useState({ value: "", error: "" });
 
   const sendResetPasswordEmail = () => {
-    const emailError = emailValidator(email.value)
+    const emailError = emailValidator(email.value);
     if (emailError) {
-      setEmail({ ...email, error: emailError })
-      return
+      setEmail({ ...email, error: emailError });
+      return;
     }
-    navigation.navigate('LoginScreen')
-  }
+    navigation.navigate("LoginScreen");
+  };
 
   return (
-    <Background>
-      <BackButton goBack={navigation.goBack} />
+    <Background style={{ padding: 20, maxWidth: 340 }}>
+      <BackButton
+        goBack={navigation.goBack}
+        style={{ position: "absolute", top: 10 + getStatusBarHeight() }}
+      />
       <Logo />
-      <Header>Restore Password</Header>
+      <Title>Restore Password</Title>
       <TextInput
         label="E-mail address"
         returnKeyType="done"
         value={email.value}
-        onChangeText={(text) => setEmail({ value: text, error: '' })}
+        onChangeText={(text) => setEmail({ value: text, error: "" })}
         error={!!email.error}
         errorText={email.error}
         autoCapitalize="none"
@@ -45,5 +49,5 @@ export default function ResetPasswordScreen({ navigation }) {
         Send Instructions
       </Button>
     </Background>
-  )
+  );
 }

@@ -1,18 +1,16 @@
 import fetch from "cross-fetch";
-require("dotenv").config();
-
-const port = process.env.PORT || 3000;
-const localhost = process.env.DB_HOST;
 
 async function fetchData() {
-  const response = await fetch(`http://${localhost}:${port}/getAll`);
+  const response = await fetch(
+    `https://mygreengarageserver.onrender.com/getAll`
+  );
   const data = await response.json();
   return data;
 }
 async function updateTemp(id, temp) {
   const tempdata = { temperature: temp };
   console.log(JSON.stringify(tempdata));
-  fetch(`http://${localhost}:3000/update/${id}`, {
+  fetch(`https://mygreengarageserver.onrender.com/update/${id}`, {
     method: "PUT",
     body: JSON.stringify(tempdata),
     headers: { "Content-Type": "application/json" },
@@ -23,8 +21,8 @@ async function updateTemp(id, temp) {
 
 async function loginUser(un, ps) {
   const login = { username: un, password: ps };
-  let result;
-  var result2 = await fetch(`http://${localhost}:${port}/login`, {
+
+  var result2 = await fetch(`https://mygreengarageserver.onrender.com/login`, {
     method: "POST",
     body: JSON.stringify(login),
     headers: { "Content-Type": "application/json" },
@@ -34,4 +32,26 @@ async function loginUser(un, ps) {
   //   console.log(response);
   return response;
 }
-export { fetchData, updateTemp, loginUser };
+
+async function registerUser(us, ps, em) {
+  const register = { username: us, password: ps, email: em };
+  console.log("problem" + JSON.stringify(register));
+  var result2 = await fetch(
+    `https://mygreengarageserver.onrender.com/register`,
+    {
+      method: "POST",
+      body: JSON.stringify(register),
+      headers: { "Content-Type": "application/json" },
+    }
+  );
+  const response = await result2.json();
+  if ("message" in response) {
+    return false;
+  }
+  if ("username" in response) {
+    return true;
+  }
+
+  return response;
+}
+export { fetchData, updateTemp, loginUser, registerUser };
