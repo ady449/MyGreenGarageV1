@@ -1,3 +1,12 @@
+require("dotenv").config();
+
+const port = process.env.PORT || 3000;
+const dbHost = process.env.DB_HOST;
+const dbUser = process.env.DB_USER;
+const dbPassword = process.env.DB_PASSWORD;
+const apiKey = process.env.API_KEY;
+
+// Rest of your server code
 const express = require("express");
 // The `body-parser` library helps us parse the HTTP request body and provide
 // it to our routes as a javascript object
@@ -18,6 +27,6 @@ app.use(routes);
 init().then(() => {
   // Once the database is initialized, start the server by listening
   // on port 3000
-  console.log("starting server on port 3000");
-  app.listen(3000, "0.0.0.0");
+  console.log(`starting server on port ${port}`);
+  app.listen(port, "0.0.0.0");
 });

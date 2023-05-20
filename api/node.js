@@ -1,14 +1,11 @@
 import fetch from "cross-fetch";
-// const os = require("os");
+require("dotenv").config();
 
-// console.log(localhost);
+const port = process.env.PORT || 3000;
+const localhost = process.env.DB_HOST;
 
-// const localhost = os.networkInterfaces();
-// console.log(localhost);
-
-const localhost = "192.168.100.9";
 async function fetchData() {
-  const response = await fetch(`http://${localhost}:3000/getAll`);
+  const response = await fetch(`http://${localhost}:${port}/getAll`);
   const data = await response.json();
   return data;
 }
@@ -27,7 +24,7 @@ async function updateTemp(id, temp) {
 async function loginUser(un, ps) {
   const login = { username: un, password: ps };
   let result;
-  var result2 = await fetch(`http://${localhost}:3000/login`, {
+  var result2 = await fetch(`http://${localhost}:${port}/login`, {
     method: "POST",
     body: JSON.stringify(login),
     headers: { "Content-Type": "application/json" },

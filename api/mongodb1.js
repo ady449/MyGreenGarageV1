@@ -1,7 +1,15 @@
+require("dotenv").config();
+
+const dbHost = process.env.DB_HOST;
+const dbUser = process.env.DB_USER;
+const dbPassword = process.env.DB_PASSWORD;
+
+// Rest of your server code
+
 const express = require("express");
 
-const username = encodeURIComponent("user1");
-const password = encodeURIComponent("user1");
+const username = encodeURIComponent(dbUser);
+const password = encodeURIComponent(dbPassword);
 
 const app = express();
 const validator = require("validator");
