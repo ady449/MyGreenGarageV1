@@ -1,10 +1,10 @@
-// import React from "react";
+import React from "react";
 // import _ from "lodash";
-// import { View, Dimensions } from "react-native";
-
+import { View, Dimensions } from "react-native";
+import Camera360 from "../stuff/Camera360";
 // import Image360Viewer from "@hauvo/react-native-360-image-viewer";
 
-// const { width, height } = Dimensions.get("window");
+const { width, height } = Dimensions.get("window");
 
 // const images = _.reverse([
 //   // require('../img/car2/IMG_4149.png'),
@@ -86,16 +86,20 @@
 //   require("../img/car2/IMG_4267.png"),
 // ]);
 
-// const App = () => {
-//   return (
-//     <View style={{ flex: 1, justifyContent: "center", marginLeft: width / 6 }}>
-//       <Image360Viewer
-//         srcset={images}
-//         width={width / 1.5}
-//         height={height / 1.5}
-//       />
-//     </View>
-//   );
-// };
+const App = () => {
+  return (
+    <View style={{ flex: 1, justifyContent: "center", marginLeft: width / 6 }}>
+      {/* <Image360Viewer
+        srcset={images}
+        width={width / 1.5}
+        height={height / 1.5}
+      /> */}
+      <Camera360 style={}
+      dimensions={{}}
+      inputType="mono"
+      imageURL=""/>
+    </View>
+  );
+};
 
-// export default App;
+export default App;

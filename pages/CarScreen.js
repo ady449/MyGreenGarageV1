@@ -10,42 +10,57 @@ import {
 } from "react-native";
 import { Divider, Text } from "react-native-paper";
 import { Ionicons } from "@expo/vector-icons";
-import { updateTemp } from "../api/node";
 import { Switch, Snackbar } from "react-native-paper";
 import Header from "../src/components/Header";
 import { theme } from "../src/core/theme";
 import BackButton from "../src/components/BackButton";
 import Background from "../src/components/Background";
+import { updateCar, getCarById } from "../api/node";
 
 function CarScreen({ navigation, route }) {
-  //   const { car } = route.params;
-  const car = {
-    name: "tesla",
-    id: "6463fbc8fb561988e5988c6b",
-    temperature: 15,
-  };
+  const [car, setCar] = useState({});
+  const { carIdName } = route.params;
 
   const [temp, setTemp] = useState(car.temperature);
   const [tempPrev, setTempprev] = useState(car.temperature);
   const [tempControls, setTempControls] = useState(false);
 
-  const [isSwitchOn, setIsSwitchOn] = React.useState(false);
+  const [carlockControls, setCarlockControls] = useState(false);
+  const [isSwitchOn, setIsSwitchOn] = useState(car.isLocked);
+  const [visible, setVisible] = useState(false);
   const onToggleSwitch = () => {
     setIsSwitchOn(!isSwitchOn);
     setVisible(!visible);
   };
 
-  const [visible, setVisible] = React.useState(false);
   const onToggleSnackBar = () => setVisible(!visible);
   const onDismissSnackBar = () => setVisible(false);
 
-  useEffect(() => {
-    car.temperature = temp;
-    setTempprev(temp);
-    if (temp != tempPrev) {
-      updateTemp(car.id, car.temperature);
+  async function getData() {
+    const carData = await getCarById(carIdName.id);
+
+    if (Object.keys(carData).length > 0) {
+      setCar(carData);
+      setTemp(carData.temperature);
+      setTempprev(carData.temperature);
+      setIsSwitchOn(carData.isLocked);
     }
-  }, [tempControls]);
+  }
+  useEffect(() => {
+    if (Object.keys(car).length === 0) {
+      getData();
+    }
+    car.temperature = temp;
+    const previusIsLocked = car.isLocked;
+    car.isLocked = isSwitchOn;
+    if (Object.keys(car).length > 0) {
+      setTempprev(temp);
+    }
+
+    if (temp != tempPrev || isSwitchOn != previusIsLocked) {
+      updateCar(car);
+    }
+  }, [tempControls, carlockControls]);
 
   const incrementTemp = () => {
     if (temp < 33) {
@@ -59,8 +74,6 @@ function CarScreen({ navigation, route }) {
     }
   };
 
-  const [carlockControls, setCarlockControls] = useState(false);
-
   const SCREEN_HEIGHT = Dimensions.get("window").height;
   const SCREEN_WIDTH = Dimensions.get("window").width;
 
@@ -70,7 +83,9 @@ function CarScreen({ navigation, route }) {
         <BackButton goBack={navigation.goBack} />
         <Text style={[styles.text, { marginLeft: 20 }]}>{car.name}</Text>
       </Header>
-      <TouchableOpacity onPress={() => navigation.navigate("Detail")}>
+      <TouchableOpacity
+        onPress={() => navigation.navigate("Detail", { carIdName: carIdName })}
+      >
         <Image style={styles.carimg} source={require("../img/tesla2.png")} />
       </TouchableOpacity>
 

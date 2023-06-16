@@ -3,32 +3,36 @@ import { FlatList, StyleSheet, Text, View } from "react-native";
 import { fetchData } from "../api/node";
 import { DataTable } from "react-native-paper";
 
-const TableView = () => {
-  const data = {
-    id: 1,
-    title: "Item 1",
-    VIN: "1234AUDI",
-    RCA: "2023-04-26",
-    BatteryLevel: 44,
-    BatteryHealth: 51,
+const TableView = ({ data }) => {
+  const dataName = [
+    "title",
+    "VIN",
+    "Insurance",
+    "Battery Level",
+    "Battery Health",
+  ];
+  const car = {
+    "Manufacture Date": data.dateofmanufacture,
+    "Battery Health": data.batterylife,
+    "Battery Level": data.batterylevel,
+    Insurance: data.insurance,
+    Range: data.range,
+    VIN: data.vin,
+    "Door locked": data.isLocked,
+    Km: data.km,
   };
 
-  const dataName = ["title", "VIN", "RCA", "Battery Level", "Battery Health"];
-
   const today = new Date();
-  const expirationDate = new Date(data["RCA"]);
+  const expirationDate = new Date(data["insurance"]);
   const [count, setCount] = useState(0);
 
   useEffect(() => {
     setCount((prev) => prev + 1);
-    console.log(count);
-    console.log(data["RCA"]);
-    console.log(today);
   }, []);
 
   const RenderItem = () => {
-    return Object.keys(data).map((key) => {
-      if (key === "RCA" && today < expirationDate) {
+    return Object.keys(car).map((key) => {
+      if (key === "Insurance" && today < expirationDate) {
         return (
           <DataTable.Row
             style={{ border: 0, backgroundColor: "red" }}
@@ -36,23 +40,14 @@ const TableView = () => {
           >
             <DataTable.Cell>{key}</DataTable.Cell>
             <DataTable.Cell style={{ justifyContent: "center" }}>
-              {data[key]}
+              {car[key]}
             </DataTable.Cell>
           </DataTable.Row>
         );
       } else if (
-        (key === "BatteryLevel" || key === "BatteryHealth") &&
-        data[key] <= 50
+        (key === "Battery Level" || key === "Battery Health") &&
+        car[key] <= 50
       ) {
-        console.log(
-          key,
-          " avem ",
-          data[key],
-          " pentru ",
-          data[key] < 50,
-          " si ",
-          (key === "BatteryLevel" || key === "BatteryHealth") && data[key] <= 50
-        );
         return (
           <DataTable.Row
             style={{
@@ -65,7 +60,24 @@ const TableView = () => {
               {key}
             </DataTable.Cell>
             <DataTable.Cell style={{ justifyContent: "center" }}>
-              {data[key]} %
+              {car[key]}
+            </DataTable.Cell>
+          </DataTable.Row>
+        );
+      } else if (key === "Door locked") {
+        return (
+          <DataTable.Row
+            style={{
+              border: 0,
+              backgroundColor: "red",
+            }}
+            key={key}
+          >
+            <DataTable.Cell style={{ justifyContent: "flex-start" }}>
+              {key}
+            </DataTable.Cell>
+            <DataTable.Cell style={{ justifyContent: "center" }}>
+              {car[key] ? "locked" : "unlocked"}
             </DataTable.Cell>
           </DataTable.Row>
         );
@@ -77,13 +89,20 @@ const TableView = () => {
           >
             <DataTable.Cell>{key}</DataTable.Cell>
             <DataTable.Cell style={{ justifyContent: "center" }}>
-              {data[key]}{" "}
+              {car[key]}{" "}
             </DataTable.Cell>
           </DataTable.Row>
         );
       }
     });
   };
+
+  //   const RenderItem = () => {
+  //     //   Object.keys(data).map((key, value) => {
+  //     //     console.log(data["_id"]);
+  //     //   });
+  //     // console.log(data._id);
+  //   };
 
   return (
     <View style={{ backgroundColor: "white", borderRadius: 15 }}>

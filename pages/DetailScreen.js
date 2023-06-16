@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import TableView from "../stuff/TableView";
 import {
   Animated,
@@ -13,13 +13,26 @@ import Header from "../src/components/Header";
 import { theme } from "../src/core/theme";
 import BackButton from "../src/components/BackButton";
 import Background from "../src/components/Background";
+import { updateCar, getCarById } from "../api/node";
 
 function DetailScreen({ navigation, route }) {
   //   const { car } = route.params;
 
-  const { car } = "";
+  const { carIdName } = route.params;
   const windowWidth = Dimensions.get("window").width;
   const circleRadius = 30;
+  const [car, setCar] = useState({});
+
+  async function getData() {
+    const carData = await getCarById(carIdName.id);
+    if (Object.keys(carData).length > 0) {
+      setCar(carData);
+    }
+  }
+  useEffect(() => {
+    getData();
+    console.log(car);
+  }, []);
 
   return (
     <Background>
@@ -29,7 +42,7 @@ function DetailScreen({ navigation, route }) {
       <View style={styles.container}>
         <Text style={styles.title}>Status</Text>
         <Divider style={{ marginTop: 30 }} variant="middle" />
-        <TableView />
+        {Object.keys(car).length > 0 && <TableView data={car} />}
       </View>
     </Background>
   );

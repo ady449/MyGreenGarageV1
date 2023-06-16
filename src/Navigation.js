@@ -10,6 +10,7 @@ import {
   RegisterScreen,
   ResetPasswordScreen,
   Dashboard,
+  AddCar,
 } from "./screens";
 
 // import ViewCar from "../pages/ViewCar.js";
@@ -19,7 +20,7 @@ const Stack = createStackNavigator();
 function MyStack() {
   return (
     <Stack.Navigator
-      initialRouteName="StartScreen"
+      initialRouteName="HomeScreen"
       screenOptions={{
         headerShown: false,
         headerStyle: {
@@ -42,6 +43,7 @@ function MyStack() {
       <Stack.Screen name="LoginScreen" component={LoginScreen} />
       <Stack.Screen name="RegisterScreen" component={RegisterScreen} />
       <Stack.Screen name="Dashboard" component={Dashboard} />
+      <Stack.Screen name="AddCar" component={AddCar} />
       <Stack.Screen
         name="ResetPasswordScreen"
         component={ResetPasswordScreen}
