@@ -23,12 +23,7 @@ export default function RegisterScreen({ navigation }) {
   const [errorText, setError] = useState("");
 
   useEffect(() => {
-    // This effect will run whenever the value of `register` changes
-
     if (register === true) {
-      //   console.log(typeof register); // You will see the updated value of `register` here
-      // Perform any action you want after the state update is complete
-      // For exampregisterUserle, navigate to a different screen
       navigation.navigate("LoginScreen");
     }
   }, [register, navigation]);

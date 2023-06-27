@@ -21,12 +21,8 @@ export default function LoginScreen({ navigation }) {
   const [auth, setAuth] = useState(false);
 
   useEffect(() => {
-    // This effect will run whenever the value of `auth` changes
     if (auth === true) {
-      //   console.log(typeof auth); // You will see the updated value of `auth` here
-      // Perform any action you want after the state update is complete
-      // For example, navigate to a different screen
-      navigation.navigate("Home");
+      navigation.navigate("Home", { userName: username.value });
     }
   }, [auth, navigation]);
 

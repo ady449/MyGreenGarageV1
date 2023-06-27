@@ -1,16 +1,20 @@
 import fetch from "cross-fetch";
 
-async function fetchData() {
-  const response = await fetch(
-    `https://mygreengarageserver.onrender.com/getAllNames`
-  );
+const url = "https://mygreengarageserver.onrender.com";
+// const url = `localhost`;
+
+async function fetchData(username) {
+  const response = await fetch(`${url}/getAllNames/${username}`, {
+    method: "GET",
+    headers: { "Content-Type": "application/json" },
+  });
   const data = await response.json();
   return data;
 }
 async function updateCar(car) {
   const carData = car;
   //   console.log(JSON.stringify(carData));
-  fetch(`https://mygreengarageserver.onrender.com/update/${car._id}`, {
+  fetch(`${url}/update/${car._id}`, {
     method: "PUT",
     body: JSON.stringify(carData),
     headers: { "Content-Type": "application/json" },
@@ -22,7 +26,7 @@ async function updateCar(car) {
 async function loginUser(un, ps) {
   const login = { username: un, password: ps };
 
-  var result2 = await fetch(`https://mygreengarageserver.onrender.com/login`, {
+  var result2 = await fetch(`${url}/login`, {
     method: "POST",
     body: JSON.stringify(login),
     headers: { "Content-Type": "application/json" },
@@ -35,15 +39,11 @@ async function loginUser(un, ps) {
 
 async function registerUser(us, ps, em) {
   const register = { username: us, password: ps, email: em };
-  console.log("problem" + JSON.stringify(register));
-  var result2 = await fetch(
-    `https://mygreengarageserver.onrender.com/register`,
-    {
-      method: "POST",
-      body: JSON.stringify(register),
-      headers: { "Content-Type": "application/json" },
-    }
-  );
+  var result2 = await fetch(`${url}/register`, {
+    method: "POST",
+    body: JSON.stringify(register),
+    headers: { "Content-Type": "application/json" },
+  });
   const response = await result2.json();
   if ("message" in response) {
     return false;
@@ -55,18 +55,18 @@ async function registerUser(us, ps, em) {
   return response;
 }
 async function addCar(
-  model,
   brand,
+  model,
   dateofmanufacture,
-  batterylevel,
   batterylife,
+  batterylevel,
   vin,
   range,
   km,
+  camera,
   insurance,
   temperature,
   isLocked,
-  camera,
   geolocation
 ) {
   const register = {
@@ -85,14 +85,11 @@ async function addCar(
     geolocation: geolocation,
   };
   console.log("problem" + JSON.stringify(register));
-  var result2 = await fetch(
-    `https://mygreengarageserver.onrender.com/insertCar`,
-    {
-      method: "POST",
-      body: JSON.stringify(register),
-      headers: { "Content-Type": "application/json" },
-    }
-  );
+  var result2 = await fetch(`${url}/insertCar`, {
+    method: "POST",
+    body: JSON.stringify(register),
+    headers: { "Content-Type": "application/json" },
+  });
   const response = await result2.json();
   if ("message" in response) {
     return false;
@@ -103,13 +100,10 @@ async function addCar(
   return response;
 }
 async function getCarById(id) {
-  var response = await fetch(
-    `https://mygreengarageserver.onrender.com/getOneCar/${id}`,
-    {
-      method: "GET",
-      headers: { "Content-Type": "application/json" },
-    }
-  );
+  var response = await fetch(`${url}/getOneCar/${id}`, {
+    method: "GET",
+    headers: { "Content-Type": "application/json" },
+  });
   const data = await response.json();
 
   //   console.log(data[0]);

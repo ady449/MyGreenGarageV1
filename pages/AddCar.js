@@ -1,29 +1,29 @@
 import React, { useState, useEffect } from "react";
 import { View, StyleSheet, TouchableOpacity, ScrollView } from "react-native";
 import { Text } from "react-native-paper";
-import Background from "../components/Background";
-import Logo from "../components/Logo";
-import Header from "../components/Header";
-import Button from "../components/Button";
-import Title from "../components/Title";
-import TextInput from "../components/TextInput";
-import BackButton from "../components/BackButton";
-import { theme } from "../core/theme";
+import Background from "../src/components/Background";
+import Logo from "../src/components/Logo";
+import Header from "../src/components/Header";
+import Button from "../src/components/Button";
+import Title from "../src/components/Title";
+import TextInput from "../src/components/TextInput";
+import BackButton from "../src/components/BackButton";
+import { theme } from "../src/core/theme";
 
-import { addCar } from "../../api/node";
+import { addCar } from "../api/node";
 import { getStatusBarHeight } from "react-native-status-bar-height";
 
 export default function AddCar({ navigation }) {
   const [model, setModel] = useState({ value: "", error: "" });
   const [brand, setBrand] = useState({ value: "", error: "" });
   const [dmnf, setDmnf] = useState({ value: "", error: "" });
-  const [batterylife, setBatterylife] = useState({ value: "", error: "" });
-  const [batterylevel, setBatterylevel] = useState({ value: "", error: "" });
+  const [batterylife, setBatterylife] = useState({ value: 0, error: "" });
+  const [batterylevel, setBatterylevel] = useState({ value: 0, error: "" });
   const [vin, setVin] = useState({ value: "", error: "" });
-  const [range, setRange] = useState({ value: "", error: "" });
-  const [km, setKm] = useState({ value: "", error: "" });
-  const [camera, setCamera] = useState({ value: true, error: "" });
-  const [temperature, setTemperature] = useState({ value: "", error: "" });
+  const [range, setRange] = useState({ value: 0, error: "" });
+  const [km, setKm] = useState({ value: 0, error: "" });
+  const [camera, setCamera] = useState({ value: false, error: "" });
+  const [temperature, setTemperature] = useState({ value: 15, error: "" });
   const [isLocked, setIsLocked] = useState({ value: true, error: "" });
   const [geolocation, setGeolocation] = useState({
     value: { latitude: 23, longitude: 45 },
@@ -54,7 +54,6 @@ export default function AddCar({ navigation }) {
       setError(true);
     }
     setRegister(registerCheck);
-    console.log(registerCheck);
   };
 
   return (
@@ -142,7 +141,7 @@ export default function AddCar({ navigation }) {
       <Button
         mode="contained"
         onPress={onSignUpPressed}
-        style={{ marginTop: 24 }}
+        style={{ marginTop: 24, width: 300 }}
       >
         AddCar
       </Button>
