@@ -13,7 +13,9 @@ import { theme } from "../src/core/theme";
 import { addCar } from "../api/node";
 import { getStatusBarHeight } from "react-native-status-bar-height";
 
-export default function AddCar({ navigation }) {
+export default function AddCar({ navigation, route }) {
+  //   const { username } = route.params;
+  //   console.log(route.params);
   const [model, setModel] = useState({ value: "", error: "" });
   const [brand, setBrand] = useState({ value: "", error: "" });
   const [dmnf, setDmnf] = useState({ value: "", error: "" });
@@ -36,6 +38,7 @@ export default function AddCar({ navigation }) {
   useEffect(() => {});
   const onSignUpPressed = async () => {
     const registerCheck = await addCar(
+      username.value,
       brand.value,
       model.value,
       dmnf.value,

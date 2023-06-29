@@ -111,7 +111,11 @@ function CarScreen({ navigation, route }) {
         <TouchableOpacity onPress={() => navigation.navigate("ViewCar")}>
           <Ionicons name={"videocam"} size={23} style={{ width: 50 }} />
         </TouchableOpacity>
-        <TouchableOpacity onPress={() => navigation.navigate("Map")}>
+        <TouchableOpacity
+          onPress={() =>
+            navigation.navigate("Map", { coords: car.geolocation })
+          }
+        >
           <Ionicons name={"map"} size={23} style={{ width: 50 }} />
         </TouchableOpacity>
       </View>

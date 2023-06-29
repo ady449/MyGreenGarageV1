@@ -14,11 +14,21 @@ import {
   Dashboard,
 } from "./screens";
 
-// import ViewCar from "../pages/ViewCar.js";
+import ViewCar from "../pages/ViewCar.js";
 const Drawer = createDrawerNavigator();
 const Stack = createStackNavigator();
-
-function MyStack() {
+const DrawerNav = () => {
+  return (
+    <Drawer.Navigator
+      initialRouteName="MyStack"
+      screenOptions={{ headerShown: false }}
+    >
+      <Drawer.Screen name="MyStack" component={MyStack} />
+      <Drawer.Screen name="Add Car" component={AddCar} />
+    </Drawer.Navigator>
+  );
+};
+const MyStack = () => {
   return (
     <Stack.Navigator
       initialRouteName="StartScreen"
@@ -33,17 +43,6 @@ function MyStack() {
         },
       }}
     >
-      {/* <Stack.Screen
-        name="Home"
-        component={HomeScreen}
-        options={{
-          title: "Home",
-        }}
-      /> */}
-      <Drawer.Navigator screenOptions={{ headerShown: false }}>
-        <Drawer.Screen name="Home" component={HomeScreen} />
-        <Drawer.Screen name="Add Car" component={AddCar} />
-      </Drawer.Navigator>
       <Stack.Screen name="StartScreen" component={StartScreen} />
       <Stack.Screen name="LoginScreen" component={LoginScreen} />
       <Stack.Screen name="RegisterScreen" component={RegisterScreen} />
@@ -74,15 +73,23 @@ function MyStack() {
           title: "Map",
         }}
       />
-      {/* <Stack.Screen
+      <Stack.Screen
+        name="Home"
+        component={HomeScreen}
+        options={{
+          title: "Home Screen",
+          detachPreviousScreen: true,
+        }}
+      />
+      <Stack.Screen
         name="ViewCar"
         component={ViewCar}
         options={{
-          title: "Veiw Car",
+          title: "View Car",
         }}
-      /> */}
+      />
     </Stack.Navigator>
   );
-}
+};
 
-export default MyStack;
+export default DrawerNav;

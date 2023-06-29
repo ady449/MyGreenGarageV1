@@ -9,9 +9,9 @@ import {
   Button,
 } from "react-native";
 import { Divider } from "@react-native-material/core";
-import Header from "../src/components/Header";
 import { theme } from "../src/core/theme";
 import BackButton from "../src/components/BackButton";
+import Header from "../src/components/Header";
 import Background from "../src/components/Background";
 import { updateCar, getCarById } from "../api/node";
 

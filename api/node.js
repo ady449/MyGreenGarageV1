@@ -55,6 +55,7 @@ async function registerUser(us, ps, em) {
   return response;
 }
 async function addCar(
+  username,
   brand,
   model,
   dateofmanufacture,
@@ -70,22 +71,27 @@ async function addCar(
   geolocation
 ) {
   const register = {
-    brand: brand,
-    model: model,
-    dateofmanufacture: dateofmanufacture,
-    batterylevel: batterylevel,
-    batterylife: batterylife,
-    vin: vin,
-    range: range,
-    km: km,
-    insurance: insurance,
-    temperature: temperature,
-    isLocked: isLocked,
-    camera: camera,
-    geolocation: geolocation,
+    user: {
+      username: username,
+    },
+    car: {
+      brand: brand,
+      model: model,
+      dateofmanufacture: dateofmanufacture,
+      batterylevel: batterylevel,
+      batterylife: batterylife,
+      vin: vin,
+      range: range,
+      km: km,
+      insurance: insurance,
+      temperature: temperature,
+      isLocked: isLocked,
+      camera: camera,
+      geolocation: geolocation,
+    },
   };
   console.log("problem" + JSON.stringify(register));
-  var result2 = await fetch(`${url}/insertCar`, {
+  var result2 = await fetch(`${url}/insertCarFull`, {
     method: "POST",
     body: JSON.stringify(register),
     headers: { "Content-Type": "application/json" },

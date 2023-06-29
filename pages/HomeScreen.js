@@ -1,4 +1,4 @@
-import React, { useRef, useState, useEffect } from "react";
+import React, { useRef, useState, useEffect, useCallback } from "react";
 import {
   createDrawerNavigator,
   DrawerContentScrollView,
@@ -13,6 +13,7 @@ import {
   FlatList,
   TouchableOpacity,
   Image,
+  BackHandler,
   Animated,
 } from "react-native";
 import { AddCar } from "../src/screens";
@@ -45,40 +46,45 @@ const handlePressIn = () => {
 };
 
 const renderListItem = ({ item }) => (
-  console.log(item),
-  (
-    <TouchableOpacity
-      style={styles.item}
-      key={item.id}
-      onPress={() => this.props.navigation.navigate("Car", { carIdName: item })}
-    >
-      <Animated.View>
-        <View key={item.id}>
-          <Text style={styles.text}>{item.brand + " " + item.model}</Text>
-          <View style={styles.imageContainer}></View>
-        </View>
-      </Animated.View>
-    </TouchableOpacity>
-  )
+  <TouchableOpacity
+    style={styles.item}
+    key={item.id}
+    onPress={() => this.props.navigation.navigate("Car", { carIdName: item })}
+  >
+    <Animated.View>
+      <View key={item.id}>
+        <Text style={styles.text}>{item.brand + " " + item.model}</Text>
+        <View style={styles.imageContainer}></View>
+      </View>
+    </Animated.View>
+  </TouchableOpacity>
 );
 
 function Home({ navigation, route }) {
   const { userName } = route.params;
   const [items, setItems] = useState([]);
   const [data, setData] = useState([]);
+
   async function getData() {
     const newData = await fetchData(userName);
     setData(newData);
   }
   useEffect(() => {
+    const disableGesture = navigation.addListener("beforeRemove", (e) => {
+      // Block the gesture-enabled "go back" action
+      if (e.data.action.type === "GO_BACK") {
+        e.preventDefault();
+      }
+    });
+
+    disableGesture;
     const intervalId = setInterval(() => {
       getData();
     }, 5000);
     return () => {
       clearInterval(intervalId);
     };
-    getData();
-  }, []);
+  }, [navigation]);
   return (
     <View>
       <Header>
@@ -99,7 +105,6 @@ function Home({ navigation, route }) {
                   <Text style={styles.text}>
                     {item.brand + " " + item.model}
                   </Text>
-                  <View style={styles.imageContainer}></View>
                 </View>
               </Animated.View>
             </TouchableOpacity>
